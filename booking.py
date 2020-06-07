@@ -1,6 +1,7 @@
-#https://beautifultable.readthedocs.io/
+# https://beautifultable.readthedocs.io/
 
 from argparse import ArgumentParser
+from beautifultable import BeautifulTable
 import yaml
 
 # Variables
@@ -14,8 +15,28 @@ parser.add_argument("-v", "--verbose", action="store_true",
 
 args = parser.parse_args()
 
-# Convert input to upper case
-store = args.storename.upper()
+# Convert input to upper case if it exists
+try:
+    store = args.storename.upper()
+except AttributeError as identifier:
+    store = False
+
+
+# Functions
+def createTable(dict, full):
+    """This function creates a table of the booking schedule for 
+    one store or all stores and prints it"""
+    table = BeautifulTable()
+    table.column_headers = ["Store", "Booker", "Environment",
+                            "Store name", "Platform", "Start date", "End date"]
+    if full:
+        for store in dict:
+            table.append_row([*dict[store].values()])
+    else:
+        table.append_row([*dict.values()])
+    print(table)
+    return
+
 
 with open(r'./table.yaml') as file:
     # The FullLoader parameter handles the conversion from YAML
@@ -32,8 +53,7 @@ if args.verbose:
 
 
 if not store:
-    for item in Store_list:
-        print(item)
+    createTable(Store_list, 1)
 else:
     if store in Store_list:
-        print(Store_list[store])
+        createTable(Store_list[store], 0)

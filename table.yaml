@@ -4,8 +4,8 @@ DSRX01:
   Environment: db
   StoreName: pl0961
   Platform: 4.6
-  StartDate: 2001-01-01
-  EndDate: 2001-01-02
+  StartDate: '2001-01-01'
+  EndDate: '2001-01-02'
 
 DSRX02:
   Name: DSRX02
@@ -13,8 +13,8 @@ DSRX02:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  StartDate: 2002-02-02
-  EndDate: 2003-03-03
+  StartDate: '2002-02-02'
+  EndDate: '2003-03-03'
 
 DSRX03:
   Name: DSRX03
@@ -22,8 +22,8 @@ DSRX03:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  StartDate: 2002-02-02
-  EndDate: 2003-03-03
+  StartDate: '2002-02-02'
+  EndDate: '2003-03-03'
 
 DSRX04:
   Name: DSRX04
@@ -31,5 +31,5 @@ DSRX04:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  StartDate: 2002-02-02
-  EndDate: 2003-03-03
+  StartDate: '2002-02-02'
+  EndDate: '2003-03-03'
