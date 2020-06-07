@@ -3,21 +3,23 @@
 from argparse import ArgumentParser
 from beautifultable import BeautifulTable
 import yaml
+import datetime
 
 # Variables
 
 parser = ArgumentParser(
-    prog='PROG', usage='booking [options]', description='A program for listing and booking the stores in the lab')
-parser.add_argument("-l", "--list", dest="storename", nargs='?',
+    prog='Booking', usage='%(prog)s [-help] [--list] [--list STORE_NAME] ', description='A program for listing and booking the stores in the lab')
+parser.add_argument("-l", "--list", nargs="?", default='not_specified', type=str,
                     help="List the whole booking table or only for a store")
 parser.add_argument("-v", "--verbose", action="store_true",
                     help="increase output verbosity")
+parser.add_argument
 
 args = parser.parse_args()
 
 # Convert input to upper case if it exists
 try:
-    store = args.storename.upper()
+    store = args.list.upper()
 except AttributeError as identifier:
     store = False
 
@@ -45,15 +47,26 @@ with open(r'./table.yaml') as file:
     Store_list = yaml.full_load(file)
 
 if args.verbose:
-    print('Very verbose, such text, wow')
+    print('')
     print(args)
-    print('args.storename is: ' + str(type(args.storename)))
-    print(Store_list)
-    print('Store list is: ' + str(type(Store_list)))
+    print('')
+    print('args.list is of type: ' + str(type(args.list)))
+    print('')
+    print('Store list is of type: ' + str(type(Store_list)))
+    print('')
+    print('Stores available:')
+    for store in Store_list:
+        print(Store_list[store])
+    print('')
+    print('Specified store is: ' + str(store))
+    print('')
 
 
-if not store:
-    createTable(Store_list, 1)
-else:
-    if store in Store_list:
-        createTable(Store_list[store], 0)
+if args.list != 'not_specified':
+    if not store:
+        createTable(Store_list, 1)
+    else:
+        if store in Store_list:
+            createTable(Store_list[store], 0)
+        else:
+            print('No store matching that name was found.')
