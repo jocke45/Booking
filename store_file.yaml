@@ -1,25 +1,28 @@
 DSRX01:
   Name: DSRX01
-  Booker: Joakim
+  Booker: null
   Environment: db
   StoreName: pl0961
   Platform: 4.6
+  Comment: Task string
   StartDate: 2001-01-01
   EndDate: 2001-01-02
 DSRX02:
   Name: DSRX02
-  Booker: Karl
+  Booker: ''
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  StartDate: 2002-02-02
-  EndDate: 2003-03-03
+  Comment: ''
+  StartDate: ''
+  EndDate: ''
 DSRX03:
   Name: DSRX03
   Booker: Alexander
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: Task string
   StartDate: 2002-02-02
   EndDate: 2003-03-03
 DSRX04:
@@ -28,13 +31,15 @@ DSRX04:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: Task string
   StartDate: 2002-02-02
   EndDate: 2003-03-03
 DSRX05:
   Name: DSRX05
-  Booker: Joakim
+  Booker: Free
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  StartDate: 1-2-3
-  EndDate: 4-5-6
+  Comment: Task string
+  StartDate: 2002-02-02
+  EndDate: 2003-03-03

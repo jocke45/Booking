@@ -1,9 +1,10 @@
 DSRX01:
   Name: DSRX01
-  Booker: Joakim
+  Booker: 
   Environment: db
   StoreName: pl0961
   Platform: 4.6
+  Comment: 'Task string'
   StartDate: 2001-01-01
   EndDate: 2001-01-02
 
@@ -13,6 +14,7 @@ DSRX02:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: 'Task string'
   StartDate: 2002-02-02
   EndDate: 2003-03-03
 
@@ -22,6 +24,7 @@ DSRX03:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: 'Task string'
   StartDate: 2002-02-02
   EndDate: 2003-03-03
 
@@ -31,6 +34,7 @@ DSRX04:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: 'Task string'
   StartDate: 2002-02-02
   EndDate: 2003-03-03
 
@@ -40,5 +44,6 @@ DSRX05:
   Environment: db
   StoreName: pl0960
   Platform: 4.6
+  Comment: 'Task string'
   StartDate: 2002-02-02
   EndDate: 2003-03-03
