@@ -1,6 +1,6 @@
 DSRX01:
   Name: DSRX01
-  Booker: 
+  Booker: ' '
   Environment: db
   StoreName: pl0961
   Platform: 4.6
@@ -40,7 +40,7 @@ DSRX04:
 
 DSRX05:
   Name: DSRX05
-  Booker: Free
+  Booker: ' '
   Environment: db
   StoreName: pl0960
   Platform: 4.6
