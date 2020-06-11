@@ -4,8 +4,8 @@ import yaml
 import datetime
 
 # TODO
-# Free store command
-# - 
+# Make commands use functions
+# -
 # Sub command for list, e.g. listing all "db" envs or how many stores Joakim has booked
 #
 # Change command that changes platform/comment/environment
@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 # Functions
 def createTable(dict, full):
-    """This function creates a table of the booking schedule for 
+    """This function creates a table of the booking schedule for
     one store or all stores and prints it"""
     table = BeautifulTable(max_width=100)
     table.set_style(BeautifulTable.STYLE_BOX)
@@ -40,6 +40,51 @@ def createTable(dict, full):
         table.append_row([*dict.values()])
     print(table)
     return
+
+
+# Book command
+def bookCommand(args, Store_list, book_store):
+    if not book_store:
+        print('Please specify the store that you want to book.')
+    else:
+        if book_store in Store_list:
+            if((Store_list[book_store]['Booker'] not in (None, 'Free', '')) and (Store_list[book_store]['Booker'] != args.book[1])):
+                print('Warning: Store already booked to',
+                      Store_list[book_store]['Booker'])
+            print('Changing booking of store', book_store)
+            Store_list[book_store]['Booker'] = args.book[1]
+            Store_list[book_store]['Comment'] = args.book[2]
+            Store_list[book_store]['StartDate'] = args.book[3]
+            Store_list[book_store]['EndDate'] = args.book[4]
+            with open(r'.\store_file.yaml', 'w') as file:
+                document = yaml.dump(Store_list, file, sort_keys=False)
+            createTable(Store_list[book_store], 0)
+        else:
+            print('No store matching that name was found.')
+
+# Verbose command
+
+
+def verboseCommand(args, Store_list, list_store, book_store):
+    print('')
+    print(args)
+    print('')
+    print('args.list is of type: ', type(args.list))
+    print('')
+    print('args.book is of type: ', type(args.book))
+    print('')
+    print('args.drop is of type: ', type(args.drop))
+    print('')
+    print('Store list is of type: ', type(Store_list))
+    print('')
+    print('Stores available:')
+    for store in Store_list:
+        print(Store_list[store])
+    print('')
+    print('Specified list_store is: ', list_store)
+    print('')
+    print('Specified book_store is:', book_store)
+    print('')
 
 
 # Convert input to upper case if it exists
@@ -66,49 +111,10 @@ with open(r'./table.yaml') as file:
     global Store_list
     Store_list = yaml.full_load(file)
 
-if args.verbose:
-    print('')
-    print(args)
-    print('')
-    print('args.list is of type: ', type(args.list))
-    print('')
-    print('args.book is of type: ', type(args.book))
-    print('')
-    print('args.drop is of type: ', type(args.drop))
-    print('')
-    print('Store list is of type: ', type(Store_list))
-    print('')
-    print('Stores available:')
-    for store in Store_list:
-        print(Store_list[store])
-    print('')
-    print('Specified list_store is: ', list_store)
-    print('')
-    print('Specified book_store is:', book_store)
-    print('')
-
-
 # Handling of commands
 # Book command
 if args.book:
-    if not book_store:
-        print('Please specify the store that you want to book.')
-    else:
-        if book_store in Store_list:
-            if((Store_list[book_store]['Booker'] not in (None, 'Free', ''))and (Store_list[book_store]['Booker'] != args.book[1])):
-                print('Warning: Store already booked to',
-                      Store_list[book_store]['Booker'])
-            print('Changing booking of store', book_store)
-            Store_list[book_store]['Booker'] = args.book[1]
-            Store_list[book_store]['Comment'] = args.book[2]
-            Store_list[book_store]['StartDate'] = args.book[3]
-            Store_list[book_store]['EndDate'] = args.book[4]
-            with open(r'.\store_file.yaml', 'w') as file:
-                document = yaml.dump(Store_list, file, sort_keys=False)
-            createTable(Store_list[book_store], 0)
-        else:
-            print('No store matching that name was found.')
-
+    bookCommand(args, Store_list, book_store)
 
 # Drop command
 if args.drop:
@@ -137,3 +143,7 @@ if args.list != 'not_specified':
             createTable(Store_list[list_store], 0)
         else:
             print('No store matching that name was found.')
+
+# Verbose command
+if args.verbose:
+    verboseCommand(args, Store_list, list_store, book_store)
