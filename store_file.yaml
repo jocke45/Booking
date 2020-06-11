@@ -1,21 +1,21 @@
 DSRX01:
   Name: DSRX01
-  Booker: null
+  Booker: joakim
   Environment: db
   StoreName: pl0961
   Platform: 4.6
-  Comment: Task string
-  StartDate: 2001-01-01
-  EndDate: 2001-01-02
+  Comment: kommentar test
+  StartDate: '2020-06-10'
+  EndDate: '2020-06-11'
 DSRX02:
   Name: DSRX02
-  Booker: ''
+  Booker: Karl
   Environment: db
   StoreName: pl0960
   Platform: 4.6
-  Comment: ''
-  StartDate: ''
-  EndDate: ''
+  Comment: Task string
+  StartDate: 2002-02-02
+  EndDate: 2003-03-03
 DSRX03:
   Name: DSRX03
   Booker: Alexander

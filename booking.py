@@ -24,8 +24,30 @@ parser.add_argument
 
 args = parser.parse_args()
 
+# Variables
+in_file = './table.yaml'
+out_file = './store_file.yaml'
+# Convert input to upper case if it exists
+# Book input
+try:
+    book_store = args.book[0].upper()
+except TypeError as identifier:
+    book_store = False
+# Drop input
+try:
+    drop_store = args.drop[0].upper()
+except TypeError as identifier:
+    drop_store = False
+# List input
+try:
+    list_store = args.list.upper()
+except AttributeError as identifier:
+    list_store = False
 
 # Functions
+# Create table function
+
+
 def createTable(dict, full):
     """This function creates a table of the booking schedule for
     one store or all stores and prints it"""
@@ -56,16 +78,33 @@ def bookCommand(args, Store_list, book_store):
             Store_list[book_store]['Comment'] = args.book[2]
             Store_list[book_store]['StartDate'] = args.book[3]
             Store_list[book_store]['EndDate'] = args.book[4]
-            with open(r'.\store_file.yaml', 'w') as file:
-                document = yaml.dump(Store_list, file, sort_keys=False)
+            writeBooking(out_file, Store_list)
             createTable(Store_list[book_store], 0)
         else:
             print('No store matching that name was found.')
 
+
+# Drop command
+def dropCommand(Store_list, drop_store):
+    if not drop_store:
+        print('Please specify the store that should be cleared.')
+    else:
+        if drop_store in Store_list:
+            print('Clearing booking of store ', drop_store)
+            Store_list[drop_store]['Booker'] = ''
+            Store_list[drop_store]['Comment'] = ''
+            Store_list[drop_store]['StartDate'] = ''
+            Store_list[drop_store]['EndDate'] = ''
+            writeBooking(out_file, Store_list)
+            createTable(Store_list[drop_store], 0)
+        else:
+            print('No store matching that name was found.')
+
+
 # Verbose command
-
-
 def verboseCommand(args, Store_list, list_store, book_store):
+    print('')
+    print('in file:', in_file, 'and out file:', out_file)
     print('')
     print(args)
     print('')
@@ -87,52 +126,31 @@ def verboseCommand(args, Store_list, list_store, book_store):
     print('')
 
 
-# Convert input to upper case if it exists
-# Book input
-try:
-    book_store = args.book[0].upper()
-except TypeError as identifier:
-    book_store = False
-# Drop input
-try:
-    drop_store = args.drop[0].upper()
-except TypeError as identifier:
-    drop_store = False
-# List input
-try:
-    list_store = args.list.upper()
-except AttributeError as identifier:
-    list_store = False
+# Write booking schedule to file
+def writeBooking(out_file, Store_list):
+    with open(out_file, 'w') as file:
+        yaml.dump(Store_list, file, sort_keys=False)
 
 
-with open(r'./table.yaml') as file:
+with open(in_file) as file:
     # The FullLoader parameter handles the conversion from YAML
     # scalar values to Python the dictionary format
     global Store_list
     Store_list = yaml.full_load(file)
 
 # Handling of commands
+# Verbose command
+# Placing this first as this should be done first to not make other passed argument output hard to read
+if args.verbose:
+    verboseCommand(args, Store_list, list_store, book_store)
+
 # Book command
 if args.book:
     bookCommand(args, Store_list, book_store)
 
 # Drop command
 if args.drop:
-    if not drop_store:
-        print('Please specify the store that should be cleared.')
-    else:
-        if drop_store in Store_list:
-            print('Clearing booking of store ', drop_store)
-            Store_list[drop_store]['Booker'] = ''
-            Store_list[drop_store]['Comment'] = ''
-            Store_list[drop_store]['StartDate'] = ''
-            Store_list[drop_store]['EndDate'] = ''
-            with open(r'.\store_file.yaml', 'w') as file:
-                document = yaml.dump(Store_list, file, sort_keys=False)
-            createTable(Store_list[drop_store], 0)
-        else:
-            print('No store matching that name was found.')
-
+    dropCommand(Store_list, drop_store)
 
 # List command
 if args.list != 'not_specified':
@@ -143,7 +161,3 @@ if args.list != 'not_specified':
             createTable(Store_list[list_store], 0)
         else:
             print('No store matching that name was found.')
-
-# Verbose command
-if args.verbose:
-    verboseCommand(args, Store_list, list_store, book_store)
