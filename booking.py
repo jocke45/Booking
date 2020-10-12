@@ -1,17 +1,16 @@
 from argparse import ArgumentParser
 from beautifultable import BeautifulTable
 import yaml
-import datetime
 
 # TODO
 # Change command that changes platform/comment/environment
 # Fix so that argument cleaning is handled in function
-# Use actual database, Mongo DB perhaps?
+# Use actual database (PosgresSQL)
 
 # TESTING
 # Sub command for list, e.g. listing all "db" envs or how many units Joakim has booked
 
-
+# Define what arguments are valid and their help message
 parser = ArgumentParser(
     prog='Booking', usage='%(prog)s [command] <options>', description='A program for listing and booking units')
 parser.add_argument("-b", "--book", nargs=5, type=str,
@@ -54,7 +53,7 @@ except AttributeError as identifier:
 def create_table(dict, full):
     """This function creates a table of the booking schedule for
     one unit or all units and prints it"""
-    table = BeautifulTable(max_width=100)
+    table = BeautifulTable(maxwidth=100)
     table.set_style(BeautifulTable.STYLE_BOX)
     table.column_headers = ["unit", "Booker", "Environment",
                             "unit name", "Platform", "Comment", "Start date", "End date"]
