@@ -1,4 +1,3 @@
-# from beautifultable import BeautifulTable
 import click
 
 # TODO
@@ -12,13 +11,13 @@ import click
 
 def arg_handler(args):
     """Give the user a chance to input missing args"""
-    # all args are provided, return the original list
-    if len(args) > 2:
-        return args
-    click.echo('Missing arguments, please enter the following')
-    # Otherwise get the args needed from the user
     # convert the input tuple to a list
     store_list = [info for i in args for info in i]
+    # all args are provided, return the original list
+    if len(store_list) > 2:
+        return store_list
+    click.echo('Missing arguments, please enter the following')
+    # Otherwise get the args needed from the user
     if len(store_list) < 1:
         store_list.append(click.prompt("Store name"))
     if len(store_list) < 2:
