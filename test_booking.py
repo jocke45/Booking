@@ -10,6 +10,7 @@ store = 'a'
 
 
 class TestBooking(unittest.TestCase):
+    """Nothing here will work right now as the code has undergone major changes"""
 
     def test_arg_handler_full(self):
         """Test the arg_handler function when all args are given"""
@@ -45,7 +46,8 @@ class TestBooking(unittest.TestCase):
     def test_book_missing_three(self):
         """Test the book command with two args missing"""
         runner = CliRunner()
-        result = runner.invoke(book, [test_tuple_missing_three], input="a\nb\nc")
+        result = runner.invoke(
+            book, [test_tuple_missing_three], input="a\nb\nc")
         self.assertEqual(result.exit_code, 0, 'Should be zero')
         # assertIn to avoid having to deal asserting the input prompt and such
         self.assertIn(
@@ -65,20 +67,13 @@ class TestBooking(unittest.TestCase):
         assert result.exit_code == 0
         assert result.output == f'List store {store} command passed\n'
 
+    def test_create_table(self):
+        #dict = {'Store:': 'book_list[0].upper()', 'name': 'book_list[1]',
+                                                  'comment': 'book_list[2]', "new": 'ny sak'}
+
+        #create_table([dicta])
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()
-    # Define testing variables
-    """test_tuple_full = ('a', 'b', 'c')
-    test_tuple_missing_one = ('a', 'b')
-    store = 'a'
-
-    # Run the tests
-    test_arg_handler_full(test_tuple_full)
-    print("test_arg_handler_full passed")
-    # test_arg_handler_missing_one(test_tuple_missing_one)
-    # print("test_arg_handler_missing_one passed")
-    test_list_empty()
-    print("test_list_empty passed")
-    test_list_specified(store)
-    print("test_list_specified passed")"""

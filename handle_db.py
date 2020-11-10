@@ -11,34 +11,33 @@ booking_schema = myclient['booking-db']['booking-schema']
 
 
 def add_data(data):
-    """Used for adding a store"""
-    new_store = {"_id": data[0], "booker": data[1], "comment": data[2]}
-    result = booking_schema.insert_one(new_store)
+    """Add a unit"""
+    # TODO
+    new_unit = {"_id": data[0].upper(), "booker": data[1], "comment": data[2]}
+    result = booking_schema.insert_one(new_unit)
     return result.inserted_id
 
 
-def find_store(store_id):
-    """Used for finding one specific store"""
-    return [booking_schema.find_one({"_id": store_id.upper()})]
+def find_unit(unit_id):
+    """Find specific unit"""
+    return [booking_schema.find_one({"_id": unit_id.upper()})]
 
 
-def find_all_stores():
-    """Used for finding all stores"""
+def find_all_units():
+    """Find all units"""
     result = []
-    for store in booking_schema.find():
-        result.append(store)
+    for unit in booking_schema.find():
+        result.append(unit)
     return result
 
 
-def update_store(data):
-    new_data = {"$set": {"booker": data[1], "comment": data[2]}}
-    return booking_schema.update_one({"_id": data[0].upper()}, new_data).matched_count
-    
+def update_unit(data):
+    """Update specified unit"""
+    data_copy = data.copy()
+    id = data_copy.pop('_id')
+    new_data = {"$set": data_copy}
+    return booking_schema.update_one({"_id": id.upper()}, new_data).matched_count
 
 
 if __name__ == "__main__":
-    print(find_store('UNIT01'))
-    print(update_store(['UNIT01', 'någon', 'gfd']))
-    print(find_store('UNIT01'))
-    #print(find_all_stores())
-
+    print(find_unit('UNIT01'))
