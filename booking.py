@@ -1,9 +1,8 @@
 from beautifultable import BeautifulTable
 import click
-from handle_db import update_unit, find_all_units, find_unit
+from handle_db import empty_unit, find_all_units, find_unit, update_unit
 
 # TODO
-# Drop command
 # Add command?
 # Test test test
 
@@ -14,7 +13,7 @@ from handle_db import update_unit, find_all_units, find_unit
 
 def arg_handler(args):
     """
-    Take the unser input and return it as a dictionary
+    Take the user input and return it as a dictionary
     Give the user a chance to input missing args, if any
     """
     unit_list = {}
@@ -91,11 +90,14 @@ def drop(drop_unit):
     """Drop a booking of a unit.
     This deletes all info about a unit"""
     if not drop_unit:
-        drop_unit = click.prompt('unit')
+        drop_unit = click.prompt('Unit')
     click.echo(
-        f'You are about to delete any booking or comment one unit {drop_unit[0]}.')
+        f'You are about to delete any booking or comment on unit {drop_unit[0]}.')
     if click.prompt('Proceed? \n[Y/n]').casefold() in {'y', 'yes'}:
-        click.echo(f'Removed booking of unit {drop_unit[0]}')
+        if empty_unit(drop_unit[0]):
+            click.echo(f'Removed booking of unit {drop_unit[0]}')
+        else:
+            click.echo('Did not find a unit with the specified name')
 
 
 @ main.command()
