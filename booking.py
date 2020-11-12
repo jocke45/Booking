@@ -2,9 +2,6 @@ from beautifultable import BeautifulTable
 import click
 from handle_db import empty_unit, find_all_units, find_unit, update_unit
 
-# TODO
-# Add command?
-# Test test test
 
 ####################
 # Helper functions #
