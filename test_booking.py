@@ -1,79 +1,51 @@
 import unittest
 from click.testing import CliRunner
-from booking import arg_handler, book, list
+from booking import arg_handler
+from handle_db import add_unit, delete_unit, empty_unit, find_all_units, find_unit, update_unit
 
-test_tuple_full = ('a', 'b', 'c')
-test_tuple_missing_one = ('a', 'b')
-test_tuple_missing_two = ('a')
-test_tuple_missing_three = ()
-store = 'a'
+test_list_full = ['a', 'b', 'c', 'd']
+test_unit = 'a'
+test_unit_data = {'_id': 'a', 'booker': 'b', 'comment': 'c', 'date': 'd'}
+test_find_unit_correct_result = {'_id': 'A',
+                                 'booker': 'b', 'comment': 'c', 'date': 'd'}
+arg_handler_correct_result = {'_id': 'a',
+                              'booker': 'b', 'comment': 'c', 'date': 'd'}
 
 
 class TestBooking(unittest.TestCase):
-    """Nothing here will work right now as the code has undergone major changes"""
+    """Testing all code of the booking CLI
+    Unfortunately it is very ugly to assert output of beautifultable
+    so we test the functions that give output to beautifultable
+    and then test one print of a table"""
 
-    def test_arg_handler_full(self):
+    def test_a(self):
         """Test the arg_handler function when all args are given"""
-        self.assertEqual(arg_handler(test_tuple_full), [
-                         'a', 'b', 'c'], 'should be [a, b, c]')
+        self.assertEqual(arg_handler(test_list_full),
+                         arg_handler_correct_result)
 
-    def test_book_full(self):
-        """Test the book command with all args provided"""
-        runner = CliRunner()
-        result = runner.invoke(book, [test_tuple_full])
-        self.assertEqual(result.exit_code, 0, 'Should be zero')
-        self.assertEqual(
-            result.output, f'Booking store {test_tuple_full[0]} to {test_tuple_full[1]} with comment {test_tuple_full[2]}\n')
+    def test_b(self):
+        """Test add_unit"""
+        self.assertEqual(add_unit(test_unit_data), 'A')
 
-    def test_book_missing_one(self):
-        """Test the book command with one arg missing"""
-        runner = CliRunner()
-        result = runner.invoke(book, [test_tuple_missing_one], input='c')
-        self.assertEqual(result.exit_code, 0, 'Should be zero')
-        # assertIn to avoid having to deal asserting the input prompt and such
-        self.assertIn(
-            f'Booking store {test_tuple_full[0]} to {test_tuple_full[1]} with comment {test_tuple_full[2]}\n', result.output)
+    def test_c(self):
+        """Test empty_unit"""
+        self.assertEqual(empty_unit(test_unit), 1)
 
-    def test_book_missing_two(self):
-        """Test the book command with two args missing"""
-        runner = CliRunner()
-        result = runner.invoke(book, [test_tuple_missing_two], input="b\nc")
-        self.assertEqual(result.exit_code, 0, 'Should be zero')
-        # assertIn to avoid having to deal asserting the input prompt and such
-        self.assertIn(
-            f'Booking store {test_tuple_full[0]} to {test_tuple_full[1]} with comment {test_tuple_full[2]}\n', result.output)
+    def test_d(self):
+        """Test update_unit"""
+        self.assertEqual(update_unit(test_unit_data), 1)
 
-    def test_book_missing_three(self):
-        """Test the book command with two args missing"""
-        runner = CliRunner()
-        result = runner.invoke(
-            book, [test_tuple_missing_three], input="a\nb\nc")
-        self.assertEqual(result.exit_code, 0, 'Should be zero')
-        # assertIn to avoid having to deal asserting the input prompt and such
-        self.assertIn(
-            f'Booking store {test_tuple_full[0]} to {test_tuple_full[1]} with comment {test_tuple_full[2]}\n', result.output)
+    def test_e(self):
+        """Test find_unit"""
+        self.assertEqual(find_unit(test_unit), [test_find_unit_correct_result])
 
-    def test_list_empty(self):
-        """Test the list command without specifying a store"""
-        runner = CliRunner()
-        result = runner.invoke(list, [])
-        assert result.exit_code == 0
-        assert result.output == 'List all command passed\n'
-
-    def test_list_specified(self):
-        """Test the list command without specifying a store"""
-        runner = CliRunner()
-        result = runner.invoke(list, [store])
-        assert result.exit_code == 0
-        assert result.output == f'List store {store} command passed\n'
-
-    def test_create_table(self):
-        #dict = {'Store:': 'book_list[0].upper()', 'name': 'book_list[1]',
-                                                  'comment': 'book_list[2]', "new": 'ny sak'}
-
-        #create_table([dicta])
-        pass
+    def test_z(self):
+        """Test delete_unit"""
+        self.assertEqual(delete_unit(test_unit), 1)
 
 
 if __name__ == "__main__":
+    # Make sure the test data is not already there
+    delete_unit(test_unit_data['_id'])
+    # Test time!
     unittest.main()
